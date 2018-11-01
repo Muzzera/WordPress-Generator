@@ -37,10 +37,6 @@ rm "wordpress-4.9.8-pt_BR.zip"
 
 mv "wordpress" "$app_name"
 
-cp $app_name/wp-config-sample.php $app_name/wp-config.php
-
-salt=$(curl https://api.wordpress.org/secret-key/1.1/salt/)
-
 theme_path="$app_name/wp-content/themes/$app_name/"
 
 mkdir $theme_path
@@ -62,13 +58,18 @@ echo "/*
   Version: $app_vs
 */" >> $theme_path/style.css
 
-code $theme_path
 
 git init $theme_path
 
-git add $theme_path/ .
+npm init
 
-git commit -m "Projeto inicializado"
+npm install gulp gulp-sass gulp-livereload gulp-concat-css --save-dev --verbose
+
+touch gulpfile.js
+
+
+code $theme_path
+
 
 
 echo "Sua Aplicação esta pronta"
