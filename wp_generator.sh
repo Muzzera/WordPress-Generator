@@ -59,13 +59,30 @@ echo "/*
 */" >> $theme_path/style.css
 
 
-git init $theme_path
+function startbitbucket {
+    echo 'Username?'
+    read username
+    echo 'Password?'
+    read -s password  # -s flag hides password text
 
-npm init
+    curl --user $username:$password \
+         https://api.bitbucket.org/1.0/repositories/ \
+         --data name=$app_name \
+         --data is_private='true'
+    git remote add origin https://$username@bitbucket.org/$username/$app_name.git
+    git push -u origin --all
+    git push -u origin --tags
+}
 
-npm install gulp gulp-sass gulp-livereload gulp-concat-css --save-dev --verbose
+ cd $theme_path && git init && git add . && git commit -m "projeto inicializado" && startbitbucket
 
-touch gulpfile.js
+pwd
+
+npm init 
+
+#npm install gulp gulp-sass gulp-livereload gulp-concat-css --save-dev --verbose
+
+#touch gulpfile.js
 
 
 code $theme_path
