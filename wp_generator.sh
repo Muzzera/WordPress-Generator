@@ -37,6 +37,10 @@ rm "wordpress-4.9.8-pt_BR.zip"
 
 mv "wordpress" "$app_name"
 
+cp $app_name/wp-config-sample.php $app_name/wp-config.php
+
+salt=$(curl https://api.wordpress.org/secret-key/1.1/salt/)
+
 theme_path="$app_name/wp-content/themes/$app_name/"
 
 mkdir $theme_path
@@ -59,5 +63,12 @@ echo "/*
 */" >> $theme_path/style.css
 
 code $theme_path
+
+git init $theme_path
+
+git add $theme_path/ .
+
+git commit -m "Projeto inicializado"
+
 
 echo "Sua Aplicação esta pronta"
